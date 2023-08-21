@@ -1,19 +1,19 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -35,6 +35,11 @@ import IllustrationLayout from "layouts/authentication/components/IllustrationLa
 
 // Image
 import bgImage from "assets/images/illustrations/illustration-reset.jpg";
+import Grid from "@mui/material/Grid";
+import MuiLink from "@mui/material/Link";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import GoogleIcon from "@mui/icons-material/Google";
 
 function Login() {
   const authContext = useContext(AuthContext);
@@ -60,11 +65,15 @@ function Login() {
   };
 
   const submitHandler = async (e) => {
+    debugger;
     e.preventDefault();
 
-    const mailFormat =  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const mailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
+    if (
+      inputs.email.trim().length === 0 ||
+      !inputs.email.trim().match(mailFormat)
+    ) {
       setErrors({ ...errors, emailError: true });
       return;
     }
@@ -88,9 +97,17 @@ function Login() {
       authContext.login(response.access_token, response.refresh_token);
     } catch (res) {
       if (res.hasOwnProperty("message")) {
-        setErrors({ ...errors, credentialsErros: true, textError: res.message });
+        setErrors({
+          ...errors,
+          credentialsErros: true,
+          textError: res.message,
+        });
       } else {
-        setErrors({ ...errors, credentialsErros: true, textError: res.errors[0].detail });
+        setErrors({
+          ...errors,
+          credentialsErros: true,
+          textError: res.errors[0].detail,
+        });
       }
     }
 
@@ -109,55 +126,81 @@ function Login() {
     };
   };
 
+  const pathfixHandler = () => {
+    window.addEventListener("$pinc.ui.auth.loggedin", () => {
+      // To show user details on success
+      console.log("ready", window.$pinc.auth.profile);
+    });
+    window.addEventListener("$pinc.oauth.notconsented", () => {
+      // To show error message in login failed
+      console.log("error occurred");
+    });
+
+    function loggedInCallback() {
+      //do something now that your user is logged in
+      console.log("window.$pinc.auth.profile", window?.$pinc?.auth?.profile);
+    }
+
+    function loggedOutCallback() {
+      console.log("window.$pinc.auth.profile", window?.$pinc?.auth?.profile);
+    }
+
+    // load helper script
+    const script = document.createElement("script");
+    script.id = "pinc.helper";
+    script.src = "https://labs.pathfix.com/helper.js";
+    script.setAttribute("modules", "pinc.auth.min");
+    script.setAttribute(
+      "data-client-id",
+      "36603516-98F9-487E-9337-ADE75090D977"
+    );
+    script.setAttribute("data-ui-providers", "github");
+    script.setAttribute("data-on-logged-in", loggedInCallback());
+    script.setAttribute("data-on-logged-out", loggedOutCallback());
+    document.body.appendChild(script);
+  };
+
+  useEffect(() => {
+    pathfixHandler();
+  }, []);
+
+  const githubHandler = async (e) => {
+    e.preventDefault();
+    try {
+      window.location.replace(
+        `https://labs.pathfix.com/integrate/command?provider=github&public_key=36603516-98F9-487E-9337-ADE75090D977&consented_redirect=${window.location.href}?isSocial=true&consented_action=redirect`
+      );
+      // const response = await AuthService.github();
+      // debugger;
+    } catch (res) {
+      if (res.hasOwnProperty("message")) {
+        setErrors({
+          ...errors,
+          credentialsErros: true,
+          textError: res.message,
+        });
+      } else {
+        setErrors({
+          ...errors,
+          credentialsErros: true,
+          textError: res.errors[0].detail,
+        });
+      }
+    }
+  };
+
   return (
     <IllustrationLayout
       title="Sign In"
       description="Enter your email and password to sign in"
       illustration={bgImage}
     >
-      <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
-        <MDBox display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-          <MDTypography color="dark" fontWeight="light" variant="body2" mb={1}>
-            You can sign in with 3 user types:
-          </MDTypography>
-          <MDBox display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              mb={2}
-            >
-              <MDTypography variant="body2" textAlign="center">
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  admin@jsonapi.com
-                </MDTypography>
-                &nbsp;with password&nbsp;
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  secret
-                </MDTypography>
-              </MDTypography>
-              <MDTypography variant="body2" textAlign="center">
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  creator@jsonapi.com
-                </MDTypography>
-                &nbsp;with password&nbsp;
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  secret
-                </MDTypography>
-              </MDTypography>
-              <MDTypography variant="body2" textAlign="center">
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  member@jsonapi.com
-                </MDTypography>
-                &nbsp;with password&nbsp;
-                <MDTypography component="span" variant="body2" sx={{ fontWeight: "medium" }}>
-                  secret
-                </MDTypography>
-              </MDTypography>
-            </MDBox>
-          </MDBox>
-        </MDBox>
+      <MDBox
+        component="form"
+        role="form"
+        method="POST"
+        onSubmit={submitHandler}
+      >
         <MDBox mb={2}>
           <MDInput
             type="email"
@@ -198,10 +241,43 @@ function Login() {
           </MDTypography>
         )}
         <MDBox mt={4} mb={1}>
-          <MDButton variant="gradient" color="info" size="large" fullWidth type="submit">
+          <MDButton
+            variant="gradient"
+            color="info"
+            size="large"
+            fullWidth
+            type="submit"
+          >
             sign in
           </MDButton>
         </MDBox>
+        <Grid
+          mt={3}
+          container
+          spacing={3}
+          justifyContent="center"
+          sx={{ mt: 1, mb: 2 }}
+        >
+          <Grid item xs={2}>
+            <MDTypography component={MuiLink} href="#" variant="body1">
+              <FacebookIcon color="inherit" />
+            </MDTypography>
+          </Grid>
+          <Grid item xs={2}>
+            <MDTypography
+              component={MuiLink}
+              variant="body1"
+              onClick={githubHandler}
+            >
+              <GitHubIcon color="inherit" />
+            </MDTypography>
+          </Grid>
+          <Grid item xs={2}>
+            <MDTypography component={MuiLink} href="#" variant="body1">
+              <GoogleIcon color="inherit" />
+            </MDTypography>
+          </Grid>
+        </Grid>
         <MDBox mt={3} mb={1} textAlign="center">
           <MDTypography variant="button" color="text">
             Forgot your password? Reset it{" "}

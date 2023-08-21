@@ -35,6 +35,11 @@ class AuthService {
     const updateProfile = "me";
     return await HttpService.patch(updateProfile, newInfo);
   };
+
+  github = async (payload) => {
+    const githubEndpoint = "github";
+    return await HttpService.get(githubEndpoint, payload);
+  };
 }
 
 export default new AuthService();
