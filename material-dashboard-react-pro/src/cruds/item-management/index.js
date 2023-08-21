@@ -1,17 +1,17 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
 import { useState, useEffect } from "react";
 
@@ -94,7 +94,7 @@ function ItemManagement() {
 
   const clickDeleteHandler = async (e, id) => {
     try {
-      if (!confirm("Are you sure you want to delete this item?")) {
+      if (!window.confirm("Are you sure you want to delete this item?")) {
         e.nativeEvent.stopImmediatePropagation();
       } else {
         await CrudService.deleteItem(id);
@@ -124,7 +124,9 @@ function ItemManagement() {
       const response = await CrudService.getItems();
       const myData = response.data;
 
-      const categories = await Promise.all(myData.map((item) => getCategory(item)));
+      const categories = await Promise.all(
+        myData.map((item) => getCategory(item))
+      );
       const tags = await Promise.all(myData.map((item) => getTags(item)));
 
       const toSetTags = [];
@@ -139,7 +141,7 @@ function ItemManagement() {
         toSetTags.push(element);
       }
 
-      let newItems = new Array();
+      let newItems = [];
       for (let i = 0; i < myData.length; i++) {
         // if null it means it throwed an error so should jump it
         if (categories[i] !== null && toSetTags[i] !== null) {
@@ -196,7 +198,12 @@ function ItemManagement() {
                     py={0.5}
                     key={tag.key}
                   >
-                    <MDTypography variant="caption" color="white" width="100%" textAlign="center">
+                    <MDTypography
+                      variant="caption"
+                      color="white"
+                      width="100%"
+                      textAlign="center"
+                    >
                       {tag.name}
                     </MDTypography>
                   </MDBox>
@@ -217,7 +224,9 @@ function ItemManagement() {
               {ability.can("delete", "items") && (
                 <Tooltip
                   title="Delete Item"
-                  onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                  onClick={(e) =>
+                    clickDeleteHandler(e, info.cell.row.original.id)
+                  }
                 >
                   <IconButton>
                     <DeleteIcon />
@@ -257,7 +266,12 @@ function ItemManagement() {
       <MDBox pt={6} pb={3}>
         <MDBox mb={3}>
           <Card>
-            <MDBox p={3} lineHeight={1} display="flex" justifyContent="space-between">
+            <MDBox
+              p={3}
+              lineHeight={1}
+              display="flex"
+              justifyContent="space-between"
+            >
               <MDTypography variant="h5" fontWeight="medium">
                 Item Management
               </MDTypography>

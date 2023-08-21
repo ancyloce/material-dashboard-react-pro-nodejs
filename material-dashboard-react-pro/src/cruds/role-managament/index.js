@@ -1,17 +1,17 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -93,7 +93,7 @@ function RoleManagement() {
 
   const clickDeleteHandler = async (e, id) => {
     try {
-      if (!confirm("Are you sure you want to delete this role?")) {
+      if (!window.confirm("Are you sure you want to delete this role?")) {
         e.nativeEvent.stopImmediatePropagation();
       } else {
         await CrudService.deleteRole(id);
@@ -148,7 +148,9 @@ function RoleManagement() {
                   getId(info.cell.row.original.id) !== 3 && (
                     <Tooltip
                       title="Delete Role"
-                      onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                      onClick={(e) =>
+                        clickDeleteHandler(e, info.cell.row.original.id)
+                      }
                     >
                       <IconButton>
                         <DeleteIcon />
@@ -158,7 +160,9 @@ function RoleManagement() {
                 ) : (
                   <Tooltip
                     title="Delete Role"
-                    onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                    onClick={(e) =>
+                      clickDeleteHandler(e, info.cell.row.original.id)
+                    }
                   >
                     <IconButton>
                       <DeleteIcon />
@@ -199,7 +203,12 @@ function RoleManagement() {
       <MDBox pt={6} pb={3}>
         <MDBox mb={3}>
           <Card>
-            <MDBox p={3} lineHeight={1} display="flex" justifyContent="space-between">
+            <MDBox
+              p={3}
+              lineHeight={1}
+              display="flex"
+              justifyContent="space-between"
+            >
               <MDTypography variant="h5" fontWeight="medium">
                 Role Management
               </MDTypography>

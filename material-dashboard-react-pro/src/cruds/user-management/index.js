@@ -1,17 +1,17 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -101,7 +101,7 @@ function UserManagement() {
 
   const clickDeleteHandler = async (e, id) => {
     try {
-      if (!confirm("Are you sure you want to delete this user?")) {
+      if (!window.confirm("Are you sure you want to delete this user?")) {
         e.nativeEvent.stopImmediatePropagation();
       } else {
         await CrudService.deleteUser(id);
@@ -177,7 +177,9 @@ function UserManagement() {
                   getId(info.cell.row.original.id) !== 3 && (
                     <Tooltip
                       title="Delete User"
-                      onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                      onClick={(e) =>
+                        clickDeleteHandler(e, info.cell.row.original.id)
+                      }
                     >
                       <IconButton>
                         <DeleteIcon />
@@ -187,7 +189,9 @@ function UserManagement() {
                 ) : (
                   <Tooltip
                     title="Delete User"
-                    onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                    onClick={(e) =>
+                      clickDeleteHandler(e, info.cell.row.original.id)
+                    }
                   >
                     <IconButton>
                       <DeleteIcon />
@@ -202,7 +206,9 @@ function UserManagement() {
                   info.cell.row.original.id !== "3" && (
                     <Tooltip
                       title="Edit User"
-                      onClick={() => clickEditHandler(info.cell.row.original.id)}
+                      onClick={() =>
+                        clickEditHandler(info.cell.row.original.id)
+                      }
                     >
                       <IconButton>
                         <EditIcon />
@@ -243,7 +249,12 @@ function UserManagement() {
       <MDBox pt={6} pb={3}>
         <MDBox mb={3}>
           <Card>
-            <MDBox p={3} lineHeight={1} display="flex" justifyContent="space-between">
+            <MDBox
+              p={3}
+              lineHeight={1}
+              display="flex"
+              justifyContent="space-between"
+            >
               <MDTypography variant="h5" fontWeight="medium">
                 User Management
               </MDTypography>

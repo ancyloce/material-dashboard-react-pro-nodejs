@@ -1,17 +1,17 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -92,7 +92,7 @@ function CategoryManagement() {
 
   const clickDeleteHandler = async (e, id) => {
     try {
-      if (!confirm("Are you sure you want to delete this category?")) {
+      if (!window.confirm("Are you sure you want to delete this category?")) {
         e.nativeEvent.stopImmediatePropagation();
       } else {
         await CrudService.deleteCategory(id);
@@ -150,14 +150,20 @@ function CategoryManagement() {
             <MDBox display="flex" alignItems="center">
               {ability.can("delete", "categories") && (
                 <Tooltip title="Delete Category">
-                  <IconButton onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}>
+                  <IconButton
+                    onClick={(e) =>
+                      clickDeleteHandler(e, info.cell.row.original.id)
+                    }
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
               )}
               {ability.can("edit", "categories") && (
                 <Tooltip title="Edit Category">
-                  <IconButton onClick={() => clickEditHandler(info.cell.row.original.id)}>
+                  <IconButton
+                    onClick={() => clickEditHandler(info.cell.row.original.id)}
+                  >
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
@@ -184,7 +190,12 @@ function CategoryManagement() {
       <MDBox pt={6} pb={3}>
         <MDBox mb={3}>
           <Card>
-            <MDBox p={3} lineHeight={1} display="flex" justifyContent="space-between">
+            <MDBox
+              p={3}
+              lineHeight={1}
+              display="flex"
+              justifyContent="space-between"
+            >
               <MDTypography variant="h5" fontWeight="medium">
                 Category Management
               </MDTypography>

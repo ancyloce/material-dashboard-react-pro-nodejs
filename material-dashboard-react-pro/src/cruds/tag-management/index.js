@@ -1,17 +1,17 @@
 /**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
+ =========================================================
+ * Material Dashboard 2 PRO React - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -94,7 +94,7 @@ function CategoryManagement() {
 
   const clickDeleteHandler = async (e, id) => {
     try {
-      if (!confirm("Are you sure you want to delete this tag?")) {
+      if (!window.confirm("Are you sure you want to delete this tag?")) {
         e.nativeEvent.stopImmediatePropagation();
       } else {
         await CrudService.deleteTag(id);
@@ -142,7 +142,13 @@ function CategoryManagement() {
         Cell: (info) => {
           return (
             <>
-              <MDBox sx={{ backgroundColor: info.cell.row.values.color, borderRadius: 16 }} px={2}>
+              <MDBox
+                sx={{
+                  backgroundColor: info.cell.row.values.color,
+                  borderRadius: 16,
+                }}
+                px={2}
+              >
                 <MDTypography variant="caption" color="white">
                   {info.cell.row.values.name}
                 </MDTypography>
@@ -162,7 +168,9 @@ function CategoryManagement() {
               {ability.can("delete", "tags") && (
                 <Tooltip
                   title="Delete Tag"
-                  onClick={(e) => clickDeleteHandler(e, info.cell.row.original.id)}
+                  onClick={(e) =>
+                    clickDeleteHandler(e, info.cell.row.original.id)
+                  }
                 >
                   <IconButton>
                     <DeleteIcon />
@@ -201,7 +209,12 @@ function CategoryManagement() {
       <MDBox pt={6} pb={3}>
         <MDBox mb={3}>
           <Card>
-            <MDBox p={3} lineHeight={1} display="flex" justifyContent="space-between">
+            <MDBox
+              p={3}
+              lineHeight={1}
+              display="flex"
+              justifyContent="space-between"
+            >
               <MDTypography variant="h5" fontWeight="medium">
                 Tag Management
               </MDTypography>
