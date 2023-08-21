@@ -1,0 +1,9 @@
+node_modules
+.env
+.idea
+.vscode
+node-api-pro/.env
+node-api-pro/node_modules
+material-dashboard-react-pro/.env
+material-dashboard-react-pro/node_modules
+material-dashboard-react-pro/build
