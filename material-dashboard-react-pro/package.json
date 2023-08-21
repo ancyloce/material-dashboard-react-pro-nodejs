@@ -13,7 +13,7 @@
     "url": "git+https://github.com/creativetimofficial/ct-material-dashboard-pro-react.git"
   },
   "engines": {
-    "node": "14 || 15 || 16",
+    "node": "18.x",
     "npm": ">=6"
   },
   "dependencies": {
@@ -108,5 +108,5 @@
     "prettier": "2.5.1"
   },
   "homepage": "https://material-dashboard-pro-react-nodejs.creative-tim.com/",
-  "proxy": "https://node-json-api-pro.creative-tim.com/"
+  "proxy": "http://localhost:3000/"
 }
