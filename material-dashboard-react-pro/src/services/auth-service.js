@@ -38,7 +38,7 @@ class AuthService {
 
   github = async (payload) => {
     const githubEndpoint = "github";
-    return await HttpService.get(githubEndpoint, payload);
+    return await HttpService.post(githubEndpoint, payload);
   };
 }
 
