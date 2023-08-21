@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  */
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -127,36 +127,28 @@ function Login() {
   };
 
   const pathfixHandler = () => {
-    window.addEventListener("$pinc.ui.auth.loggedin", () => {
-      // To show user details on success
-      console.log("ready", window.$pinc.auth.profile);
-    });
-    window.addEventListener("$pinc.oauth.notconsented", () => {
-      // To show error message in login failed
-      console.log("error occurred");
-    });
-
-    function loggedInCallback() {
-      //do something now that your user is logged in
-      console.log("window.$pinc.auth.profile", window?.$pinc?.auth?.profile);
-    }
-
-    function loggedOutCallback() {
-      console.log("window.$pinc.auth.profile", window?.$pinc?.auth?.profile);
-    }
-
     // load helper script
     const script = document.createElement("script");
     script.id = "pinc.helper";
     script.src = "https://labs.pathfix.com/helper.js";
-    script.setAttribute("modules", "pinc.auth.min");
+    script.setAttribute("modules", "pinc.oauth.min");
+    script.setAttribute("data-user-id", "ancyloce@gmailc.com");
     script.setAttribute(
-      "data-client-id",
+      "data-public-key",
       "36603516-98F9-487E-9337-ADE75090D977"
     );
-    script.setAttribute("data-ui-providers", "github");
-    script.setAttribute("data-on-logged-in", loggedInCallback());
-    script.setAttribute("data-on-logged-out", loggedOutCallback());
+
+    script.addEventListener("load", function () {
+      window.$pinc.events.on(
+        "$pinc.oauth",
+        "consented",
+        (data) => {
+          githubHandler(data).then((r) => console.log(r));
+        },
+        true
+      );
+    });
+
     document.body.appendChild(script);
   };
 
@@ -164,14 +156,9 @@ function Login() {
     pathfixHandler();
   }, []);
 
-  const githubHandler = async (e) => {
-    e.preventDefault();
+  const githubHandler = async (data) => {
     try {
-      window.location.replace(
-        `https://labs.pathfix.com/integrate/command?provider=github&public_key=36603516-98F9-487E-9337-ADE75090D977&consented_redirect=${window.location.href}?isSocial=true&consented_action=redirect`
-      );
-      // const response = await AuthService.github();
-      // debugger;
+      await AuthService.github(data);
     } catch (res) {
       if (res.hasOwnProperty("message")) {
         setErrors({
@@ -267,7 +254,7 @@ function Login() {
             <MDTypography
               component={MuiLink}
               variant="body1"
-              onClick={githubHandler}
+              data-oauth-command="github.call"
             >
               <GitHubIcon color="inherit" />
             </MDTypography>
