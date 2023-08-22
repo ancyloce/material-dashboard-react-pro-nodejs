@@ -41,6 +41,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
+// Google
+import { useGoogleLogin } from '@react-oauth/google';
+
 function Login() {
   const authContext = useContext(AuthContext);
   const [rememberMe, setRememberMe] = useState(false);
@@ -176,6 +179,14 @@ function Login() {
     }
   };
 
+  const googleSignIn =  useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async codeResponse => {
+      console.log(codeResponse);
+    },
+    onError: errorResponse => console.log(errorResponse),
+  })
+
   return (
     <IllustrationLayout
       title="Sign In"
@@ -260,7 +271,7 @@ function Login() {
             </MDTypography>
           </Grid>
           <Grid item xs={2}>
-            <MDTypography component={MuiLink} href="#" variant="body1">
+            <MDTypography component={MuiLink} variant="body1" onClick={() => googleSignIn}>
               <GoogleIcon color="inherit" />
             </MDTypography>
           </Grid>
